@@ -49,8 +49,15 @@ app.post('/api/said-yes', async (req, res) => {
         console.error("❌ Email error:", error);
         res.status(500).json({ success: false, error: error.message });
     }
+// Serve index.html on root GET route
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(PORT, () => {
-    console.log(`❤️ Backend proposal server running at http://localhost:${PORT}`);
-});
+module.exports = app;
+
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`❤️ Backend proposal server running at http://localhost:${PORT}`);
+    });
+}
